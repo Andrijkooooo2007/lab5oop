@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Computer {
+public:
+    virtual void input() = 0;
+    virtual void print() const = 0;
+    virtual ~Computer() {}
+};
+
+class Server : public Computer {
+    int numCores;
+    int ramSize;
+public:
+    Server(int cores = 0, int ram = 0) : numCores(cores), ramSize(ram) {}
+    void input() override {
+        cout << "Enter number of cores: ";
+        cin >> numCores;
+        cout << "Enter RAM size in GB: ";
+        cin >> ramSize;
+    }
+    void print() const override {
+        cout << "Server - Cores: " << numCores << ", RAM: " << ramSize << " GB\n";
+    }
+};
+
+class Laptop : public Computer {
+    float screenSize;
+    int batteryLife;
+public:
+    Laptop(float screen = 0.0, int battery = 0) : screenSize(screen), batteryLife(battery) {}
+    void input() override {
+        cout << "Enter screen size: ";
+        cin >> screenSize;
+        cout << "Enter battery life in hours: ";
+        cin >> batteryLife;
+    }
+    void print() const override {
+        cout << "Laptop - Screen Size: " << screenSize << "\", Battery Life: " << batteryLife << " hours\n";
+    }
+};
+
+int main() {
+    const int size = 6;
+    Computer* computers[size];
+    for (int i = 0; i < size; ++i) {
+        int choice;
+        cout << "Enter 1 to add Server or 2 to add Laptop: ";
+        cin >> choice;
+        if (choice == 1) {
+            computers[i] = new Server();
+        } else {
+            computers[i] = new Laptop();
+        }
+        computers[i]->input();
+    }
+
+    for (int i = 0; i < size; ++i) {
+        computers[i]->print();
+        delete computers[i];
+    }
+
+    return 0;
+}
